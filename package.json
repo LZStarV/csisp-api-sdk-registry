@@ -1,0 +1,28 @@
+{
+  "name": "csisp-api-sdk-registry",
+  "private": true,
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.33.0+sha256.bfcc1bcbad279b13a516c446a75b3c58b6904b45d57a1951411015e50b751a80",
+  "scripts": {
+    "infisical:login": "infisical login --domain \"http://43.139.43.214/api\"",
+    "format": "pnpm prettier --write . && eslint . --fix"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "eslint": "9.39.1",
+    "jiti": "^2.6.1",
+    "tsx": "^4.7.0",
+    "prettier": "^3",
+    "typescript": "^5.4.5",
+    "@openapitools/openapi-generator-cli": "^2.13.1"
+  },
+  "dependencies": {
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "typescript-eslint": "^8.57.2"
+  }
+}

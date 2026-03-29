@@ -1,0 +1,1865 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Idp-Server HTTP API",
+    "description": "CSISP 身份服务（IDP）HTTP 接口文档",
+    "version": "1.0.0",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "tags": [
+    {
+      "name": "health"
+    },
+    {
+      "name": "oidc"
+    },
+    {
+      "name": "auth"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Service health status",
+        "deprecated": false,
+        "description": "",
+        "operationId": "health_status",
+        "tags": [
+          "health"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "ok",
+                    "ts"
+                  ],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "ts": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/health/upstash": {
+      "get": {
+        "summary": "Upstash Redis connectivity via Supabase Edge Function",
+        "deprecated": false,
+        "description": "",
+        "operationId": "health_upstash",
+        "tags": [
+          "health"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "ok"
+                  ],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "region": {
+                      "type": "string",
+                      "nullable": true
+                    },
+                    "count": {
+                      "type": "integer",
+                      "nullable": true
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/oidc/clients": {
+      "post": {
+        "summary": "List OIDC clients",
+        "deprecated": false,
+        "description": "",
+        "operationId": "oidc_clients",
+        "tags": [
+          "oidc"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientInfo"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/oidc/getAuthorizationRequest": {
+      "post": {
+        "summary": "Get authorization request by ticket",
+        "deprecated": false,
+        "description": "",
+        "operationId": "oidc_getAuthorizationRequest",
+        "tags": [
+          "oidc"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAuthorizationRequestParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationRequestInfo"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login with email and password",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_login",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInternalDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/rsatoken": {
+      "post": {
+        "summary": "Get RSA public key and a short-lived token",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_rsatoken",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RSATokenResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register with email, password and student id",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_register",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/verifySignupOtp": {
+      "post": {
+        "summary": "Verify signup email OTP",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_verifySignupOtp",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifySignupOtpDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifiedResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/resendSignupOtp": {
+      "post": {
+        "summary": "Resend signup email OTP",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_resendSignupOtp",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendSignupOtpDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/send-otp": {
+      "post": {
+        "summary": "Send email OTP for step-up",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_sendOtp",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/verify-otp": {
+      "post": {
+        "summary": "Verify email OTP for step-up",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_verifyOtp",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyOtpDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifiedResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/createExchangeCode": {
+      "post": {
+        "summary": "Create a one-time exchange code",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_createExchangeCode",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExchangeCodeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateExchangeCodeResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "Too Many Requests"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/multifactor": {
+      "post": {
+        "summary": "Multifactor (not implemented)",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_multifactor",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "501": {
+            "$ref": "#/components/responses/NotImplemented",
+            "description": "Not Implemented"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/reset_password_request": {
+      "post": {
+        "summary": "Reset password request (not implemented)",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_resetPasswordRequest",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordRequestParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "501": {
+            "$ref": "#/components/responses/NotImplemented",
+            "description": "Not Implemented"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/reset_password": {
+      "post": {
+        "summary": "Reset password",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_resetPassword",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Next"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/enter": {
+      "post": {
+        "summary": "Complete login and issue session (may redirect)",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_enter",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EnterDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Next"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/mfa_methods": {
+      "post": {
+        "summary": "List MFA methods by session",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_mfaMethods",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MfaMethodsResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/forgot_init": {
+      "post": {
+        "summary": "Initialize account recovery",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_forgotInit",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotInitParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecoveryInitResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "Bad Request"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/forgot_challenge": {
+      "post": {
+        "summary": "Trigger recovery challenge (not implemented)",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_forgotChallenge",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotChallengeParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "501": {
+            "$ref": "#/components/responses/NotImplemented",
+            "description": "Not Implemented"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/forgot_verify": {
+      "post": {
+        "summary": "Verify recovery code (not implemented)",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_forgotVerify",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotVerifyParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "501": {
+            "$ref": "#/components/responses/NotImplemented",
+            "description": "Not Implemented"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/session": {
+      "post": {
+        "summary": "Get or clear session",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_session",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SessionResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "Unauthorized"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "Internal Server Error"
+          }
+        },
+        "security": []
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ClientInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "name": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "default_redirect_uri": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "openid",
+                "profile",
+                "email"
+              ]
+            }
+          }
+        }
+      },
+      "GetAuthorizationRequestParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ticket"
+        ],
+        "properties": {
+          "ticket": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthorizationRequestInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "client_id",
+          "client_name",
+          "scope",
+          "redirect_uri",
+          "state"
+        ],
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_name": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "openid",
+                "profile",
+                "email"
+              ]
+            }
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginInternalDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        }
+      },
+      "LoginResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "stepUp"
+        ],
+        "properties": {
+          "stepUp": {
+            "type": "string",
+            "enum": [
+              "PENDING_PASSWORD"
+            ]
+          }
+        }
+      },
+      "RSATokenResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "publicKey"
+        ],
+        "properties": {
+          "publicKey": {
+            "type": "string"
+          },
+          "token": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "RegisterDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email",
+          "password",
+          "student_id"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "student_id": {
+            "type": "string",
+            "pattern": "^\\\\d{10,12}$"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "nullable": true
+          },
+          "redirect_uri": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512,
+            "nullable": true
+          }
+        }
+      },
+      "RegisterResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ok",
+          "next"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          },
+          "next": {
+            "type": "string",
+            "enum": [
+              "verify_email"
+            ]
+          }
+        }
+      },
+      "VerifySignupOtpDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email",
+          "token"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          },
+          "token": {
+            "type": "string",
+            "pattern": "^\\\\d{8}$"
+          }
+        }
+      },
+      "VerifiedResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "verified"
+        ],
+        "properties": {
+          "verified": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        }
+      },
+      "ResendSignupOtpDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          }
+        }
+      },
+      "OkResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ok"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [
+              true
+            ]
+          }
+        }
+      },
+      "VerifyOtpDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "token"
+        ],
+        "properties": {
+          "token": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 16
+          }
+        }
+      },
+      "CreateExchangeCodeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "app_id",
+          "redirect_uri"
+        ],
+        "properties": {
+          "app_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "redirect_uri": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "nullable": true
+          }
+        }
+      },
+      "CreateExchangeCodeResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "code",
+          "redirect_uri"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "ResetPasswordRequestParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "studentId"
+        ],
+        "properties": {
+          "studentId": {
+            "type": "string"
+          }
+        }
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "studentId",
+          "newPassword",
+          "resetToken"
+        ],
+        "properties": {
+          "studentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "newPassword": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 64
+          },
+          "resetToken": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          }
+        }
+      },
+      "Next": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "nextSteps"
+        ],
+        "properties": {
+          "nextSteps": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Multifactor",
+                "ResetPassword",
+                "Enter",
+                "Finish"
+              ]
+            }
+          },
+          "sms": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "code": {
+                    "type": "string"
+                  },
+                  "success": {
+                    "type": "boolean"
+                  },
+                  "message": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "request_id": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "access_denied_detail": {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "redirectTo": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "EnterDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 256
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "ticket": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "redirectMode": {
+            "oneOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "http"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "studentId": {
+            "oneOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 128
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "MfaMethodsResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "multifactor"
+        ],
+        "properties": {
+          "multifactor": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMethod"
+            }
+          }
+        }
+      },
+      "IMethod": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "enabled"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "extra": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "MFAType": {
+        "type": "string",
+        "enum": [
+          "Sms",
+          "Email",
+          "Fido2",
+          "Otp"
+        ]
+      },
+      "ForgotInitParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "RecoveryInitResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "student_id",
+          "methods"
+        ],
+        "properties": {
+          "student_id": {
+            "type": "string"
+          },
+          "name": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecoveryMethod"
+            }
+          }
+        }
+      },
+      "RecoveryMethod": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "enabled"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "extra": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "reason": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "ForgotChallengeParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "studentId"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "studentId": {
+            "type": "string"
+          }
+        }
+      },
+      "ForgotVerifyParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "type",
+          "studentId",
+          "code"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "studentId": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "SessionRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "logout": {
+            "type": "boolean"
+          }
+        }
+      },
+      "SessionResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "logged"
+        ],
+        "properties": {
+          "logged": {
+            "type": "boolean"
+          },
+          "name": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "student_id": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {}
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "Bad Request",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "Internal Server Error",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Unauthorized",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "Too Many Requests",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      },
+      "NotImplemented": {
+        "description": "Not Implemented",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {}
+  },
+  "servers": [],
+  "security": []
+}
