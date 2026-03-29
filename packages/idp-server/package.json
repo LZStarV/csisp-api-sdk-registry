@@ -1,10 +1,13 @@
 {
-  "name": "idp-server",
-  "private": true,
-  "version": "0.1.0",
+  "name": "@csisp-api/idp-server",
+  "version": "0.1.1",
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
   "scripts": {
     "dev:export": "infisical run -- tsx scripts/apifox-export.ts",
     "codegen": "openapi-generator-cli generate -i ./openapi.json -g typescript-fetch -o ./generated -c ./openapi.config.json",
