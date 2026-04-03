@@ -22,7 +22,7 @@
   "paths": {
     "/health": {
       "get": {
-        "summary": "Service health status",
+        "summary": "Health",
         "deprecated": false,
         "description": "",
         "operationId": "health_status",
@@ -68,7 +68,7 @@
     },
     "/health/upstash": {
       "get": {
-        "summary": "Upstash Redis connectivity via Supabase Edge Function",
+        "summary": "Upstash",
         "deprecated": false,
         "description": "",
         "operationId": "health_upstash",
@@ -118,7 +118,7 @@
     },
     "/oidc/clients": {
       "post": {
-        "summary": "List OIDC clients",
+        "summary": "Clients",
         "deprecated": false,
         "description": "",
         "operationId": "oidc_clients",
@@ -166,7 +166,7 @@
     },
     "/oidc/getAuthorizationRequest": {
       "post": {
-        "summary": "Get authorization request by ticket",
+        "summary": "GetAuthorizationRequest",
         "deprecated": false,
         "description": "",
         "operationId": "oidc_getAuthorizationRequest",
@@ -190,7 +190,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/GetAuthorizationRequestParams"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -225,7 +226,7 @@
     },
     "/auth/login": {
       "post": {
-        "summary": "Login with email and password",
+        "summary": "Login",
         "deprecated": false,
         "description": "",
         "operationId": "auth_login",
@@ -249,7 +250,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/LoginInternalDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -288,7 +290,7 @@
     },
     "/auth/rsatoken": {
       "post": {
-        "summary": "Get RSA public key and a short-lived token",
+        "summary": "Rsatoken",
         "deprecated": false,
         "description": "",
         "operationId": "auth_rsatoken",
@@ -333,7 +335,7 @@
     },
     "/auth/register": {
       "post": {
-        "summary": "Register with email, password and student id",
+        "summary": "Register",
         "deprecated": false,
         "description": "",
         "operationId": "auth_register",
@@ -357,7 +359,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RegisterDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -388,7 +391,7 @@
     },
     "/auth/verifySignupOtp": {
       "post": {
-        "summary": "Verify signup email OTP",
+        "summary": "VerifySignupOtp",
         "deprecated": false,
         "description": "",
         "operationId": "auth_verifySignupOtp",
@@ -412,7 +415,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/VerifySignupOtpDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -447,7 +451,7 @@
     },
     "/auth/resendSignupOtp": {
       "post": {
-        "summary": "Resend signup email OTP",
+        "summary": "ResendSignupOtp",
         "deprecated": false,
         "description": "",
         "operationId": "auth_resendSignupOtp",
@@ -471,7 +475,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ResendSignupOtpDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -502,7 +507,7 @@
     },
     "/auth/send-otp": {
       "post": {
-        "summary": "Send email OTP for step-up",
+        "summary": "SendOtp",
         "deprecated": false,
         "description": "",
         "operationId": "auth_sendOtp",
@@ -551,7 +556,7 @@
     },
     "/auth/verify-otp": {
       "post": {
-        "summary": "Verify email OTP for step-up",
+        "summary": "VerifyOtp",
         "deprecated": false,
         "description": "",
         "operationId": "auth_verifyOtp",
@@ -575,7 +580,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/VerifyOtpDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -610,7 +616,7 @@
     },
     "/auth/createExchangeCode": {
       "post": {
-        "summary": "Create a one-time exchange code",
+        "summary": "CreateExchangeCode",
         "deprecated": false,
         "description": "",
         "operationId": "auth_createExchangeCode",
@@ -634,7 +640,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateExchangeCodeDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -669,7 +676,7 @@
     },
     "/auth/multifactor": {
       "post": {
-        "summary": "Multifactor (not implemented)",
+        "summary": "Multifactor",
         "deprecated": false,
         "description": "",
         "operationId": "auth_multifactor",
@@ -699,7 +706,7 @@
     },
     "/auth/reset_password_request": {
       "post": {
-        "summary": "Reset password request (not implemented)",
+        "summary": "ResetPasswordRequest",
         "deprecated": false,
         "description": "",
         "operationId": "auth_resetPasswordRequest",
@@ -723,7 +730,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ResetPasswordRequestParams"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -739,7 +747,7 @@
     },
     "/auth/reset_password": {
       "post": {
-        "summary": "Reset password",
+        "summary": "ResetPassword",
         "deprecated": false,
         "description": "",
         "operationId": "auth_resetPassword",
@@ -763,7 +771,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ResetPasswordDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -798,7 +807,7 @@
     },
     "/auth/enter": {
       "post": {
-        "summary": "Complete login and issue session (may redirect)",
+        "summary": "Enter",
         "deprecated": false,
         "description": "",
         "operationId": "auth_enter",
@@ -822,7 +831,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/EnterDto"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -853,7 +863,7 @@
     },
     "/auth/mfa_methods": {
       "post": {
-        "summary": "List MFA methods by session",
+        "summary": "MfaMethods",
         "deprecated": false,
         "description": "",
         "operationId": "auth_mfaMethods",
@@ -898,7 +908,7 @@
     },
     "/auth/forgot_init": {
       "post": {
-        "summary": "Initialize account recovery",
+        "summary": "ForgotInit",
         "deprecated": false,
         "description": "",
         "operationId": "auth_forgotInit",
@@ -922,7 +932,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ForgotInitParams"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -953,7 +964,7 @@
     },
     "/auth/forgot_challenge": {
       "post": {
-        "summary": "Trigger recovery challenge (not implemented)",
+        "summary": "ForgotChallenge",
         "deprecated": false,
         "description": "",
         "operationId": "auth_forgotChallenge",
@@ -977,7 +988,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ForgotChallengeParams"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -993,7 +1005,7 @@
     },
     "/auth/forgot_verify": {
       "post": {
-        "summary": "Verify recovery code (not implemented)",
+        "summary": "ForgotVerify",
         "deprecated": false,
         "description": "",
         "operationId": "auth_forgotVerify",
@@ -1017,7 +1029,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ForgotVerifyParams"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
@@ -1033,7 +1046,7 @@
     },
     "/auth/session": {
       "post": {
-        "summary": "Get or clear session",
+        "summary": "Session",
         "deprecated": false,
         "description": "",
         "operationId": "auth_session",
@@ -1057,7 +1070,8 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/SessionRequest"
-              }
+              },
+              "examples": {}
             }
           },
           "required": true
