@@ -16,3 +16,63 @@
    - 使用 tsc 从 generated 编译到 dist，并输出类型声明
 4. 发布
    - 将包发布到私有 npm 仓库。
+
+### 本地构建与生成
+- 在包目录执行以下命令完成导出与构建：
+
+  ```bash
+  npm run dev:export
+  npm run codegen
+  npm run build
+  ```
+
+
+## 本地开发：登录与发布到私有 npm
+
+仅用于本地调试与手动发布，线上流水线不需要手动执行这些命令。
+
+### 登录私有仓库（二选一）
+- 第一次发包时，需要先 adduser
+
+  ```bash
+  npm adduser --registry=http://182.92.140.128:40087/
+  # 或
+  npm adduser --registry="$(npm config get @csisp-api:registry)"
+  ```
+
+- 在 adduser 成功以后，会在全局 .npmrc 中存储一个 token。后续每次发布时，直接使用 login 即可登录
+
+  ```bash
+  npm login --registry="$(npm config get @csisp-api:registry)"
+  ```
+
+### 在包目录内发布
+以 idp-server 包为例
+：
+- 切到包目录：
+
+  ```bash
+  cd packages/idp-server
+  ```
+
+- 更新版本号（按需）：
+
+  ```bash
+  npm version patch
+  # 或 minor / major / prerelease --preid=alpha
+  ```
+
+- 预检包内容（可选，建议）：
+
+  ```bash
+  npm pack
+  npm publish --dry-run
+  ```
+
+- 发布到私有仓库：
+
+  ```bash
+  npm publish
+  # 或使用配置变量：
+  npm publish --registry="$(npm config get @csisp-api:registry)"
+  ```
