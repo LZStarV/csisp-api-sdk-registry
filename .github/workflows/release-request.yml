@@ -1,0 +1,120 @@
+name: Release Request (Create Version PR)
+
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        description: Service package to release
+        type: choice
+        required: true
+        options:
+          - idp-server
+        default: idp-server
+      releaseType:
+        description: SemVer bump type
+        type: choice
+        required: true
+        options:
+          - patch
+          - minor
+          - major
+        default: patch
+      preid:
+        description: Pre-release tag (empty for stable), e.g. beta/rc/canary
+        type: string
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  create_version_pr:
+    name: Create Version PR
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://registry.npmjs.org/
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Export OpenAPI (idp-server)
+        if: ${{ inputs.service == 'idp-server' }}
+        env:
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}
+          IDP_SERVER_MODULE_ID: ${{ secrets.IDP_SERVER_MODULE_ID }}
+        run: |
+          pnpm --filter @csisp-api/idp-server exec tsx scripts/apifox-export.ts
+
+      - name: Codegen & Build (idp-server)
+        if: ${{ inputs.service == 'idp-server' }}
+        run: |
+          pnpm --filter @csisp-api/idp-server run codegen
+          pnpm --filter @csisp-api/idp-server run build
+
+      - name: Create release branch
+        id: mkbranch
+        run: |
+          BR="release/${{ inputs.service }}/${{ inputs.releaseType }}-$(date +%Y%m%d%H%M%S)"
+          echo "BRANCH=$BR" >> $GITHUB_ENV
+          git checkout -b "$BR"
+
+      - name: Add changeset file
+        run: |
+          mkdir -p .changeset
+          CS_ID="auto-$(date +%s)"
+          cat > ".changeset/${CS_ID}.md" << EOF
+          ---
+          "@csisp-api/idp-server": ${{ inputs.releaseType }}
+          ---
+          Automated OpenAPI sync
+          EOF
+
+      - name: Set pre mode if needed
+        if: ${{ inputs.preid != '' }}
+        run: |
+          mkdir -p .changeset
+          cat > ".changeset/pre.json" << EOF
+          {"mode":"pre","tag":"${{ inputs.preid }}","initialVersions":{}}
+          EOF
+
+      - name: Commit and push branch
+        env:
+          BRANCH: ${{ env.BRANCH }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add .changeset
+          git commit -m "chore(release): request @csisp-api/idp-server ${{ inputs.releaseType }}${{ inputs.preid != '' && format(' (pre:{0})', inputs.preid) || '' }}"
+          git push --set-upstream origin "$BRANCH"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        with:
+          title: "chore(release): @csisp-api/idp-server ${{ inputs.releaseType }}${{ inputs.preid != '' && format(' (pre:{0})', inputs.preid) || '' }}"
+          body: |
+            This PR was created by the release-request workflow.
+            - service: ${{ inputs.service }}
+            - type: ${{ inputs.releaseType }}
+            - preid: ${{ inputs.preid }}
+          branch: ${{ env.BRANCH }}
+          base: main
+          commit-message: "chore(release): add changeset for @csisp-api/idp-server"
+

@@ -1,0 +1,48 @@
+name: Publish on Main (Changesets)
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          registry-url: https://registry.npmjs.org/
+          always-auth: true
+
+      - name: Install deps
+        run: pnpm install
+
+      - name: Publish with Changesets
+        uses: changesets/action@v1
+        with:
+          publish: |
+            bash -lc "pnpm --filter @csisp-api/idp-server exec tsx scripts/apifox-export.ts && pnpm --filter @csisp-api/idp-server run codegen && pnpm --filter @csisp-api/idp-server run build && pnpm -r publish --access public"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}
+          IDP_SERVER_MODULE_ID: ${{ secrets.IDP_SERVER_MODULE_ID }}
+

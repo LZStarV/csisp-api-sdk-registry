@@ -11,6 +11,7 @@
     "publish:idp-server": "pnpm -F @csisp-api/idp-server publish"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.27.8",
     "@types/node": "^25.5.0",
     "eslint": "9.39.1",
     "jiti": "^2.6.1",
