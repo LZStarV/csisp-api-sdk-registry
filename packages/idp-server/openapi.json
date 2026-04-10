@@ -1,5 +1,5 @@
 {
-  "openapi": "3.0.1",
+  "openapi": "3.1.0",
   "info": {
     "title": "Idp-Server HTTP API",
     "description": "CSISP 身份服务（IDP）HTTP 接口文档",
@@ -56,11 +56,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -91,12 +99,16 @@
                       "type": "boolean"
                     },
                     "region": {
-                      "type": "string",
-                      "nullable": true
+                      "type": [
+                        "string",
+                        "null"
+                      ]
                     },
                     "count": {
-                      "type": "integer",
-                      "nullable": true
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     }
                   }
                 }
@@ -106,11 +118,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -154,11 +174,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -190,8 +218,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/GetAuthorizationRequestParams"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -210,15 +237,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -250,8 +281,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/LoginInternalDto"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -270,19 +300,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests",
-            "description": "Too Many Requests"
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -323,11 +353,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -359,8 +397,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/RegisterDto"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -379,11 +416,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -415,8 +460,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/VerifySignupOtpDto"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -435,15 +479,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -475,8 +523,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ResendSignupOtpDto"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -495,14 +542,29 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
-        "security": []
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/auth/send-otp": {
@@ -538,20 +600,31 @@
             },
             "headers": {}
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests",
-            "description": "Too Many Requests"
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
-        "security": []
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/auth/verify-otp": {
@@ -580,8 +653,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/VerifyOtpDto"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -598,20 +670,31 @@
             },
             "headers": {}
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests",
-            "description": "Too Many Requests"
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
-        "security": []
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/auth/createExchangeCode": {
@@ -640,8 +723,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/CreateExchangeCodeDto"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -658,20 +740,31 @@
             },
             "headers": {}
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
           },
           "429": {
             "$ref": "#/components/responses/TooManyRequests",
-            "description": "Too Many Requests"
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
-        "security": []
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/auth/multifactor": {
@@ -696,12 +789,47 @@
           }
         ],
         "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          },
           "501": {
             "$ref": "#/components/responses/NotImplemented",
-            "description": "Not Implemented"
+            "description": "接口已暴露但当前版本尚未实现"
           }
         },
-        "security": []
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/auth/reset_password_request": {
@@ -730,16 +858,39 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ResetPasswordRequestParams"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
         },
         "responses": {
-          "501": {
-            "$ref": "#/components/responses/NotImplemented",
-            "description": "Not Implemented"
+          "200": {
+            "description": "",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -771,8 +922,7 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/ResetPasswordDto"
-              },
-              "examples": {}
+              }
             }
           },
           "required": true
@@ -783,7 +933,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Next"
+                  "type": "object",
+                  "properties": {}
                 }
               }
             },
@@ -791,15 +942,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
           },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -830,9 +985,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/EnterDto"
-              },
-              "examples": {}
+                "type": "object",
+                "properties": {}
+              }
             }
           },
           "required": true
@@ -843,19 +998,28 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Next"
+                  "type": "object",
+                  "properties": {}
                 }
               }
             },
             "headers": {}
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -888,22 +1052,38 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MfaMethodsResult"
+                  "type": "object",
+                  "properties": {}
                 }
               }
             },
             "headers": {}
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
-        "security": []
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     },
     "/auth/forgot_init": {
@@ -931,9 +1111,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ForgotInitParams"
-              },
-              "examples": {}
+                "type": "object",
+                "properties": {}
+              }
             }
           },
           "required": true
@@ -944,7 +1124,8 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RecoveryInitResult"
+                  "type": "object",
+                  "properties": {}
                 }
               }
             },
@@ -952,11 +1133,19 @@
           },
           "400": {
             "$ref": "#/components/responses/BadRequest",
-            "description": "Bad Request"
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -987,17 +1176,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ForgotChallengeParams"
-              },
-              "examples": {}
+                "type": "object",
+                "properties": {}
+              }
             }
           },
           "required": true
         },
         "responses": {
-          "501": {
-            "$ref": "#/components/responses/NotImplemented",
-            "description": "Not Implemented"
+          "200": {
+            "description": "",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -1028,17 +1241,41 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ForgotVerifyParams"
-              },
-              "examples": {}
+                "type": "object",
+                "properties": {}
+              }
             }
           },
           "required": true
         },
         "responses": {
-          "501": {
-            "$ref": "#/components/responses/NotImplemented",
-            "description": "Not Implemented"
+          "200": {
+            "description": "",
+            "content": {
+              "*/*": {
+                "schema": {
+                  "type": "object",
+                  "properties": {}
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
           }
         },
         "security": []
@@ -1069,9 +1306,9 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/SessionRequest"
-              },
-              "examples": {}
+                "type": "object",
+                "properties": {}
+              }
             }
           },
           "required": true
@@ -1082,25 +1319,42 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/SessionResult"
+                  "type": "object",
+                  "properties": {}
                 }
               }
             },
             "headers": {}
           },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
           "401": {
             "$ref": "#/components/responses/Unauthorized",
-            "description": "Unauthorized"
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
           },
           "500": {
             "$ref": "#/components/responses/ServerError",
-            "description": "Internal Server Error"
+            "description": "服务端内部异常"
           }
         },
-        "security": []
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
       }
     }
   },
+  "webhooks": {},
   "components": {
     "schemas": {
       "ClientInfo": {
@@ -1267,16 +1521,20 @@
             "pattern": "^\\\\d{10,12}$"
           },
           "display_name": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "minLength": 1,
-            "maxLength": 128,
-            "nullable": true
+            "maxLength": 128
           },
           "redirect_uri": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "minLength": 1,
-            "maxLength": 512,
-            "nullable": true
+            "maxLength": 512
           }
         }
       },
@@ -1400,10 +1658,12 @@
             "maxLength": 1024
           },
           "state": {
-            "type": "string",
+            "type": [
+              "string",
+              "null"
+            ],
             "minLength": 1,
-            "maxLength": 256,
-            "nullable": true
+            "maxLength": 256
           }
         }
       },
@@ -1422,8 +1682,10 @@
             "type": "string"
           },
           "state": {
-            "type": "string",
-            "nullable": true
+            "type": [
+              "string",
+              "null"
+            ]
           }
         }
       },
@@ -1462,418 +1724,209 @@
             "type": "string",
             "minLength": 1,
             "maxLength": 128
-          }
-        }
-      },
-      "Next": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "nextSteps"
-        ],
-        "properties": {
-          "nextSteps": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "Multifactor",
-                "ResetPassword",
-                "Enter",
-                "Finish"
-              ]
-            }
-          },
-          "sms": {
-            "oneOf": [
-              {
-                "type": "object",
-                "properties": {
-                  "code": {
-                    "type": "string"
-                  },
-                  "success": {
-                    "type": "boolean"
-                  },
-                  "message": {
-                    "oneOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  },
-                  "request_id": {
-                    "oneOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  },
-                  "access_denied_detail": {
-                    "oneOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "type": "null"
-                      }
-                    ]
-                  }
-                }
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "redirectTo": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "EnterDto": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "state": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 256
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "ticket": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "redirectMode": {
-            "oneOf": [
-              {
-                "type": "string",
-                "enum": [
-                  "http"
-                ]
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "studentId": {
-            "oneOf": [
-              {
-                "type": "string",
-                "minLength": 1,
-                "maxLength": 128
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "MfaMethodsResult": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "multifactor"
-        ],
-        "properties": {
-          "multifactor": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/IMethod"
-            }
-          }
-        }
-      },
-      "IMethod": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "type",
-          "enabled"
-        ],
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/MFAType"
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "extra": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
-      "MFAType": {
-        "type": "string",
-        "enum": [
-          "Sms",
-          "Email",
-          "Fido2",
-          "Otp"
-        ]
-      },
-      "ForgotInitParams": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "email"
-        ],
-        "properties": {
-          "email": {
-            "type": "string",
-            "format": "email"
-          }
-        }
-      },
-      "RecoveryInitResult": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "student_id",
-          "methods"
-        ],
-        "properties": {
-          "student_id": {
-            "type": "string"
-          },
-          "name": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "methods": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RecoveryMethod"
-            }
-          }
-        }
-      },
-      "RecoveryMethod": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "type",
-          "enabled"
-        ],
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/MFAType"
-          },
-          "enabled": {
-            "type": "boolean"
-          },
-          "extra": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
           },
           "reason": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
+            "$ref": "#/components/schemas/ResetReason"
           }
         }
       },
-      "ForgotChallengeParams": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "type",
-          "studentId"
-        ],
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/MFAType"
-          },
-          "studentId": {
-            "type": "string"
-          }
-        }
-      },
-      "ForgotVerifyParams": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "type",
-          "studentId",
-          "code"
-        ],
-        "properties": {
-          "type": {
-            "$ref": "#/components/schemas/MFAType"
-          },
-          "studentId": {
-            "type": "string"
-          },
-          "code": {
-            "type": "string"
-          }
-        }
-      },
-      "SessionRequest": {
-        "type": "object",
-        "additionalProperties": false,
-        "properties": {
-          "logout": {
-            "type": "boolean"
-          }
-        }
-      },
-      "SessionResult": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "logged"
-        ],
-        "properties": {
-          "logged": {
-            "type": "boolean"
-          },
-          "name": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          },
-          "student_id": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
+      "ResetReason": {
+        "type": "string",
+        "enum": [
+          "WeakPassword",
+          "Compromised",
+          "UserRequest",
+          "Other"
+        ]
       },
       "Error": {
         "type": "object",
         "required": [
+          "code",
           "message"
         ],
         "properties": {
           "code": {
-            "type": "string"
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/CommonErrorCode"
+              },
+              {
+                "$ref": "#/components/schemas/AuthErrorCode"
+              }
+            ]
           },
           "message": {
             "type": "string"
           },
-          "details": {}
+          "details": {},
+          "traceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
         }
+      },
+      "CommonErrorCode": {
+        "type": "string",
+        "enum": [
+          "BAD_REQUEST",
+          "UNAUTHORIZED",
+          "FORBIDDEN",
+          "NOT_FOUND",
+          "RATE_LIMITED",
+          "INTERNAL_ERROR",
+          "AUTH_STEP_UP_REQUIRED",
+          "OTP_INVALID_OR_EXPIRED"
+        ]
+      },
+      "AuthErrorCode": {
+        "type": "string",
+        "enum": [
+          "AUTH_STEP_UP_REQUIRED",
+          "OTP_INVALID_OR_EXPIRED",
+          "EXCHANGE_CODE_INVALID",
+          "EXCHANGE_CODE_CONSUMED",
+          "UNAUTHORIZED",
+          "RATE_LIMITED"
+        ]
       }
     },
     "responses": {
       "BadRequest": {
-        "description": "Bad Request",
+        "description": "请求参数不合法或业务前置校验失败",
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
-            }
-          }
-        }
-      },
-      "ServerError": {
-        "description": "Internal Server Error",
-        "content": {
-          "application/json": {
-            "schema": {
-              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "invalidParams": {
+                "summary": "invalidParams",
+                "value": {
+                  "code": "BAD_REQUEST",
+                  "message": "Invalid request body",
+                  "traceId": "trace-req-001"
+                }
+              },
+              "otpInvalid": {
+                "summary": "otpInvalid",
+                "value": {
+                  "code": "OTP_INVALID_OR_EXPIRED",
+                  "message": "OTP invalid or expired",
+                  "traceId": "trace-otp-001"
+                }
+              }
             }
           }
         }
       },
       "Unauthorized": {
-        "description": "Unauthorized",
+        "description": "未登录、会话失效或鉴权失败",
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "unauthorized": {
+                "summary": "unauthorized",
+                "value": {
+                  "code": "UNAUTHORIZED",
+                  "message": "Unauthorized",
+                  "traceId": "trace-auth-001"
+                }
+              }
             }
           }
         }
       },
       "TooManyRequests": {
-        "description": "Too Many Requests",
+        "description": "请求频率超过限制，触发限流",
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "rateLimited": {
+                "summary": "rateLimited",
+                "value": {
+                  "code": "RATE_LIMITED",
+                  "message": "Too many requests",
+                  "traceId": "trace-rate-001"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "服务端内部异常",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "internalError": {
+                "summary": "internalError",
+                "value": {
+                  "code": "INTERNAL_ERROR",
+                  "message": "Internal server error",
+                  "traceId": "trace-srv-001"
+                }
+              }
             }
           }
         }
       },
       "NotImplemented": {
-        "description": "Not Implemented",
+        "description": "接口已暴露但当前版本尚未实现",
         "content": {
           "application/json": {
             "schema": {
               "$ref": "#/components/schemas/Error"
+            },
+            "examples": {
+              "notImplemented": {
+                "summary": "notImplemented",
+                "value": {
+                  "code": "INTERNAL_ERROR",
+                  "message": "Not implemented",
+                  "traceId": "trace-impl-001"
+                }
+              }
             }
           }
         }
       }
     },
-    "securitySchemes": {}
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "idp_session",
+        "description": "IDP 会话 Cookie（适用于浏览器场景）"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Authorization: Bearer <token>"
+      }
+    }
   },
-  "servers": [],
+  "servers": [
+    {
+      "url": "http://127.0.0.1:4001/api/idp",
+      "description": "本地环境"
+    },
+    {
+      "url": "https://csisp-idp-server.onrender.com/api/idp",
+      "description": "生产环境"
+    }
+  ],
   "security": []
 }

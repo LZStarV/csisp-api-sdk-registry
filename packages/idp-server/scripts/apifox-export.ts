@@ -12,7 +12,7 @@ async function main() {
 
   const body = JSON.stringify({
     scope: { type: 'ALL' },
-    oasVersion: '3.1.0',
+    oasVersion: '3.1',
     moduleId,
   });
 
