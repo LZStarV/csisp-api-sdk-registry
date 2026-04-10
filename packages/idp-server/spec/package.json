@@ -1,0 +1,8 @@
+{
+  "name": "@csisp-api/idp-server-spec",
+  "private": true,
+  "version": "0.1.3",
+  "scripts": {
+    "dev:export": "infisical run -- tsx scripts/apifox-export.ts"
+  }
+}

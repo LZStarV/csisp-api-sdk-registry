@@ -8,17 +8,17 @@
   "scripts": {
     "infisical:login": "infisical login --domain \"http://43.139.43.214/api\"",
     "format": "pnpm prettier --write . && eslint . --fix",
-    "publish:idp-server": "pnpm -F @csisp-api/idp-server publish"
+    "publish:idp-server": "pnpm --filter @csisp-api/bff-idp-server publish && pnpm --filter @csisp-api/idp-server publish"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.8",
+    "@openapitools/openapi-generator-cli": "^2.31.1",
     "@types/node": "^25.5.0",
     "eslint": "9.39.1",
     "jiti": "^2.6.1",
-    "tsx": "^4.7.0",
     "prettier": "^3",
-    "typescript": "^5.4.5",
-    "@openapitools/openapi-generator-cli": "^2.13.1"
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.5"
   },
   "dependencies": {
     "eslint-plugin-import": "^2.32.0",

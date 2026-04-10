@@ -38,7 +38,7 @@ jobs:
         uses: changesets/action@v1
         with:
           publish: |
-            bash -lc "pnpm --filter @csisp-api/idp-server exec tsx scripts/apifox-export.ts && pnpm --filter @csisp-api/idp-server run codegen && pnpm --filter @csisp-api/idp-server run build && pnpm -r publish --access public"
+            bash -lc "pnpm --filter @csisp-api/idp-server-spec exec tsx scripts/apifox-export.ts && pnpm --filter @csisp-api/bff-idp-server run codegen && pnpm --filter @csisp-api/bff-idp-server run build && pnpm --filter @csisp-api/idp-server run codegen && pnpm --filter @csisp-api/idp-server run build && pnpm -r publish --access public"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

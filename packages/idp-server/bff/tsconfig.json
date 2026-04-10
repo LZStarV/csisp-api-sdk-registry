@@ -1,5 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
+  "extends": "../../../tsconfig.json",
   "compilerOptions": {
     "strict": true,
     "target": "ES2020",
@@ -10,7 +10,9 @@
     "outDir": "./dist",
     "rootDir": "./generated",
     "sourceMap": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "include": ["generated"]
 }

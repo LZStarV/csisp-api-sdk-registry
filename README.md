@@ -48,12 +48,12 @@
   ```
 
 ### 在包目录内发布
-以 idp-server 包为例
+以 idp-server/server 包为例
 ：
 - 切到包目录：
 
   ```bash
-  cd packages/idp-server
+  cd packages/idp-server/server
   ```
 
 - 更新版本号（按需）：

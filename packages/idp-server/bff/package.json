@@ -1,0 +1,29 @@
+{
+  "name": "@csisp-api/bff-idp-server",
+  "version": "0.1.4",
+  "type": "commonjs",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/**/*",
+    "README.md"
+  ],
+  "scripts": {
+    "codegen": "openapi-generator-cli generate --skip-validate-spec -i ../spec/openapi.json -g typescript-nestjs -o ./generated -c ./openapi.config.json",
+    "build": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@nestjs/axios": "^3.0.0",
+    "@nestjs/common": "^10.0.0",
+    "@nestjs/core": "^10.0.0",
+    "axios": "^1.7.0",
+    "rxjs": "^7.8.0",
+    "reflect-metadata": "^0.2.0"
+  },
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "publishConfig": {
+    "registry": "http://182.92.140.128:40087/"
+  }
+}
