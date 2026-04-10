@@ -1,0 +1,13 @@
+{
+  "name": "@csisp-api/idp-server-project",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "codegen": "pnpm --filter @csisp-api/bff-idp-server run codegen && pnpm --filter @csisp-api/idp-server run codegen",
+    "build": "pnpm --filter @csisp-api/bff-idp-server run build && pnpm --filter @csisp-api/idp-server run build",
+    "test": "pnpm -w test:idp",
+    "test:contracts": "pnpm -w test:idp:contracts",
+    "test:runtime": "pnpm -w test:idp:runtime",
+    "verify": "pnpm run codegen && pnpm run build && pnpm run test"
+  }
+}

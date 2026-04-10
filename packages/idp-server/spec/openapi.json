@@ -788,14 +788,23 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthMultifactorRequest"
+              }
+            }
+          },
+          "required": true
+        },
         "responses": {
           "200": {
             "description": "",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/NextResult"
                 }
               }
             },
@@ -867,10 +876,9 @@
           "200": {
             "description": "",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/NextResult"
                 }
               }
             },
@@ -933,8 +941,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/NextResult"
                 }
               }
             },
@@ -985,8 +992,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {}
+                "$ref": "#/components/schemas/AuthEnterRequest"
               }
             }
           },
@@ -998,8 +1004,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/NextResult"
                 }
               }
             },
@@ -1052,8 +1057,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/AuthMfaMethodsResult"
                 }
               }
             },
@@ -1111,8 +1115,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {}
+                "$ref": "#/components/schemas/AuthForgotInitRequest"
               }
             }
           },
@@ -1124,8 +1127,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/AuthForgotInitResult"
                 }
               }
             },
@@ -1176,8 +1178,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {}
+                "$ref": "#/components/schemas/AuthForgotChallengeRequest"
               }
             }
           },
@@ -1187,10 +1188,9 @@
           "200": {
             "description": "",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/NextResult"
                 }
               }
             },
@@ -1241,8 +1241,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {}
+                "$ref": "#/components/schemas/AuthForgotVerifyRequest"
               }
             }
           },
@@ -1252,10 +1251,9 @@
           "200": {
             "description": "",
             "content": {
-              "*/*": {
+              "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/AuthForgotVerifyResult"
                 }
               }
             },
@@ -1306,8 +1304,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {}
+                "$ref": "#/components/schemas/AuthSessionRequest"
               }
             }
           },
@@ -1319,8 +1316,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {}
+                  "$ref": "#/components/schemas/AuthSessionResult"
                 }
               }
             },
@@ -1689,6 +1685,80 @@
           }
         }
       },
+      "AuthMultifactorRequest": {
+        "type": "object",
+        "required": [
+          "type",
+          "codeOrAssertion"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "codeOrAssertion": {
+            "type": "string"
+          }
+        }
+      },
+      "MFAType": {
+        "type": "integer",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "NextResult": {
+        "type": "object",
+        "required": [
+          "nextSteps"
+        ],
+        "properties": {
+          "nextSteps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthNextStep"
+            }
+          },
+          "redirectTo": {
+            "type": "string"
+          },
+          "sms": {
+            "type": "object",
+            "required": [
+              "code",
+              "success"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "success": {
+                "type": "boolean"
+              },
+              "message": {
+                "type": "string"
+              },
+              "request_id": {
+                "type": "string"
+              },
+              "access_denied_detail": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AuthNextStep": {
+        "type": "integer",
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
       "ResetPasswordRequestParams": {
         "type": "object",
         "additionalProperties": false,
@@ -1738,6 +1808,192 @@
           "UserRequest",
           "Other"
         ]
+      },
+      "AuthEnterRequest": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string"
+          },
+          "ticket": {
+            "type": "string"
+          },
+          "redirectMode": {
+            "type": "string"
+          },
+          "studentId": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthMfaMethodsResult": {
+        "type": "object",
+        "required": [
+          "multifactor"
+        ],
+        "properties": {
+          "multifactor": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMethod"
+            }
+          }
+        }
+      },
+      "IMethod": {
+        "type": "object",
+        "required": [
+          "type",
+          "enabled"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "extra": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthForgotInitRequest": {
+        "type": "object",
+        "required": [
+          "email"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "AuthForgotInitResult": {
+        "type": "object",
+        "required": [
+          "student_id",
+          "methods"
+        ],
+        "properties": {
+          "student_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecoveryMethod"
+            }
+          }
+        }
+      },
+      "RecoveryMethod": {
+        "type": "object",
+        "required": [
+          "type",
+          "enabled"
+        ],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "extra": {
+            "type": "string"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/RecoveryUnavailableReason"
+          }
+        }
+      },
+      "RecoveryUnavailableReason": {
+        "type": "integer",
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ]
+      },
+      "AuthForgotChallengeRequest": {
+        "type": "object",
+        "required": [
+          "type",
+          "studentId"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "studentId": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthForgotVerifyRequest": {
+        "type": "object",
+        "required": [
+          "type",
+          "studentId",
+          "code"
+        ],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "studentId": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthForgotVerifyResult": {
+        "type": "object",
+        "required": [
+          "ok"
+        ],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "reset_token": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthSessionRequest": {
+        "type": "object",
+        "properties": {
+          "logout": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AuthSessionResult": {
+        "type": "object",
+        "required": [
+          "logged"
+        ],
+        "properties": {
+          "logged": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "student_id": {
+            "type": "string"
+          }
+        }
       },
       "Error": {
         "type": "object",
