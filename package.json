@@ -1,0 +1,37 @@
+{
+  "name": "csisp-api-sdk-registry",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "packageManager": "pnpm@10.33.0+sha256.bfcc1bcbad279b13a516c446a75b3c58b6904b45d57a1951411015e50b751a80",
+  "scripts": {
+    "infisical:login": "infisical login --domain \"http://43.139.43.214/api\"",
+    "format": "pnpm prettier --write . && eslint . --fix",
+    "publish:idp-server": "pnpm --filter @csisp-api/bff-idp-server publish && pnpm --filter @csisp-api/idp-server publish",
+    "test:idp": "pnpm --filter @csisp-api/test-template run test",
+    "test:idp:contracts": "pnpm --filter @csisp-api/test-template run test:contracts",
+    "test:idp:runtime": "pnpm --filter @csisp-api/test-template run test:runtime",
+    "test:idp:verify": "pnpm --filter @csisp-api/idp-server-project run verify",
+    "test:bff": "pnpm --filter @csisp-api/bff-idp-server-test run test",
+    "test:server": "pnpm --filter @csisp-api/idp-server-test run test",
+    "test:spec": "pnpm --filter @csisp-api/idp-server-spec-test run test",
+    "test:all": "pnpm test:idp && pnpm test:bff && pnpm test:server && pnpm test:spec"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.27.8",
+    "@openapitools/openapi-generator-cli": "^2.31.1",
+    "@types/node": "^25.5.0",
+    "eslint": "9.39.1",
+    "jiti": "^2.6.1",
+    "prettier": "^3",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "globals": "^17.4.0",
+    "typescript-eslint": "^8.57.2"
+  }
+}

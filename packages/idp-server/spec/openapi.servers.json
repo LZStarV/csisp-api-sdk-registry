@@ -1,0 +1,12 @@
+{
+  "servers": [
+    {
+      "url": "http://127.0.0.1:4001/api/idp",
+      "description": "本地环境"
+    },
+    {
+      "url": "https://csisp-idp-server.onrender.com/api/idp",
+      "description": "生产环境"
+    }
+  ]
+}

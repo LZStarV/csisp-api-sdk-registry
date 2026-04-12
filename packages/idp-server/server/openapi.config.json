@@ -1,0 +1,6 @@
+{
+  "supportsES6": true,
+  "useSingleRequestParameter": true,
+  "typescriptThreePlus": true,
+  "modelPropertyNaming": "original"
+}

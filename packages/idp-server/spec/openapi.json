@@ -1,0 +1,1817 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Idp-Server HTTP API",
+    "description": "CSISP 身份服务（IDP）HTTP 接口文档",
+    "version": "1.0.0",
+    "license": {
+      "name": "MIT"
+    }
+  },
+  "tags": [
+    {
+      "name": "health"
+    },
+    {
+      "name": "oidc"
+    },
+    {
+      "name": "auth"
+    }
+  ],
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Health",
+        "deprecated": false,
+        "description": "",
+        "operationId": "health_status",
+        "tags": ["health"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok", "ts"],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "ts": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/health/upstash": {
+      "get": {
+        "summary": "Upstash",
+        "deprecated": false,
+        "description": "",
+        "operationId": "health_upstash",
+        "tags": ["health"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": ["ok"],
+                  "properties": {
+                    "ok": {
+                      "type": "boolean"
+                    },
+                    "region": {
+                      "type": ["string", "null"]
+                    },
+                    "count": {
+                      "type": ["integer", "null"]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/oidc/clients": {
+      "post": {
+        "summary": "Clients",
+        "deprecated": false,
+        "description": "",
+        "operationId": "oidc_clients",
+        "tags": ["oidc"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ClientInfo"
+                  }
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/oidc/getAuthorizationRequest": {
+      "post": {
+        "summary": "GetAuthorizationRequest",
+        "deprecated": false,
+        "description": "",
+        "operationId": "oidc_getAuthorizationRequest",
+        "tags": ["oidc"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GetAuthorizationRequestParams"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationRequestInfo"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Login",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_login",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginInternalDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "summary": "Register",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_register",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RegisterDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RegisterResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/verifySignupOtp": {
+      "post": {
+        "summary": "VerifySignupOtp",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_verifySignupOtp",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifySignupOtpDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifiedResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/resendSignupOtp": {
+      "post": {
+        "summary": "ResendSignupOtp",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_resendSignupOtp",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResendSignupOtpDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/send-otp": {
+      "post": {
+        "summary": "SendOtp",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_sendOtp",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OkResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/verify-otp": {
+      "post": {
+        "summary": "VerifyOtp",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_verifyOtp",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerifyOtpDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VerifiedResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/createExchangeCode": {
+      "post": {
+        "summary": "CreateExchangeCode",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_createExchangeCode",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateExchangeCodeDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateExchangeCodeResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/multifactor": {
+      "post": {
+        "summary": "Multifactor",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_multifactor",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthMultifactorRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NextResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          },
+          "501": {
+            "$ref": "#/components/responses/NotImplemented",
+            "description": "接口已暴露但当前版本尚未实现"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/reset_password": {
+      "post": {
+        "summary": "ResetPassword",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_resetPassword",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NextResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/enter": {
+      "post": {
+        "summary": "Enter",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_enter",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthEnterRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NextResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/mfa_methods": {
+      "post": {
+        "summary": "MfaMethods",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_mfaMethods",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthMfaMethodsResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    },
+    "/auth/forgot_init": {
+      "post": {
+        "summary": "ForgotInit",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_forgotInit",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthForgotInitRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthForgotInitResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/forgot_challenge": {
+      "post": {
+        "summary": "ForgotChallenge",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_forgotChallenge",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthForgotChallengeRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NextResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/forgot_verify": {
+      "post": {
+        "summary": "ForgotVerify",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_forgotVerify",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthForgotVerifyRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthForgotVerifyResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": []
+      }
+    },
+    "/auth/session": {
+      "post": {
+        "summary": "Session",
+        "deprecated": false,
+        "description": "",
+        "operationId": "auth_session",
+        "tags": ["auth"],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AuthSessionRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthSessionResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "webhooks": {},
+  "components": {
+    "schemas": {
+      "ClientInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "name": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "default_redirect_uri": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["openid", "profile", "email"]
+            }
+          }
+        }
+      },
+      "GetAuthorizationRequestParams": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ticket"],
+        "properties": {
+          "ticket": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthorizationRequestInfo": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["client_id", "client_name", "scope", "redirect_uri", "state"],
+        "properties": {
+          "client_id": {
+            "type": "string"
+          },
+          "client_name": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["openid", "profile", "email"]
+            }
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          }
+        }
+      },
+      "LoginInternalDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["email", "password"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          }
+        }
+      },
+      "LoginResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stepUp"],
+        "properties": {
+          "stepUp": {
+            "type": "string",
+            "enum": ["PENDING_PASSWORD"]
+          }
+        }
+      },
+      "RegisterDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["email", "password", "student_id"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          },
+          "password": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "student_id": {
+            "type": "string",
+            "pattern": "^\\\\d{10,12}$"
+          },
+          "display_name": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "redirect_uri": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 512
+          }
+        }
+      },
+      "RegisterResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ok", "next"],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [true]
+          },
+          "next": {
+            "type": "string",
+            "enum": ["verify_email"]
+          }
+        }
+      },
+      "VerifySignupOtpDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["email", "token"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          },
+          "token": {
+            "type": "string",
+            "pattern": "^\\\\d{8}$"
+          }
+        }
+      },
+      "VerifiedResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["verified"],
+        "properties": {
+          "verified": {
+            "type": "boolean",
+            "enum": [true]
+          }
+        }
+      },
+      "ResendSignupOtpDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email",
+            "minLength": 5,
+            "maxLength": 256
+          }
+        }
+      },
+      "OkResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["ok"],
+        "properties": {
+          "ok": {
+            "type": "boolean",
+            "enum": [true]
+          }
+        }
+      },
+      "VerifyOtpDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["token"],
+        "properties": {
+          "token": {
+            "type": "string",
+            "minLength": 4,
+            "maxLength": 16
+          }
+        }
+      },
+      "CreateExchangeCodeDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["app_id", "redirect_uri"],
+        "properties": {
+          "app_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "redirect_uri": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024
+          },
+          "state": {
+            "type": ["string", "null"],
+            "minLength": 1,
+            "maxLength": 256
+          }
+        }
+      },
+      "CreateExchangeCodeResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["code", "redirect_uri"],
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "state": {
+            "type": ["string", "null"]
+          }
+        }
+      },
+      "AuthMultifactorRequest": {
+        "type": "object",
+        "required": ["type", "codeOrAssertion"],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "codeOrAssertion": {
+            "type": "string"
+          }
+        }
+      },
+      "MFAType": {
+        "type": "integer",
+        "enum": [0, 1, 2, 3]
+      },
+      "NextResult": {
+        "type": "object",
+        "required": ["nextSteps"],
+        "properties": {
+          "nextSteps": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AuthNextStep"
+            }
+          },
+          "redirectTo": {
+            "type": "string"
+          },
+          "sms": {
+            "type": "object",
+            "required": ["code", "success"],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "success": {
+                "type": "boolean"
+              },
+              "message": {
+                "type": "string"
+              },
+              "request_id": {
+                "type": "string"
+              },
+              "access_denied_detail": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "AuthNextStep": {
+        "type": "integer",
+        "enum": [0, 1, 2, 3]
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["studentId", "newPassword", "resetToken"],
+        "properties": {
+          "studentId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "newPassword": {
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 64
+          },
+          "resetToken": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "reason": {
+            "$ref": "#/components/schemas/ResetReason"
+          }
+        }
+      },
+      "ResetReason": {
+        "type": "string",
+        "enum": ["WeakPassword", "Compromised", "UserRequest", "Other"]
+      },
+      "AuthEnterRequest": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string"
+          },
+          "ticket": {
+            "type": "string"
+          },
+          "redirectMode": {
+            "type": "string"
+          },
+          "studentId": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthMfaMethodsResult": {
+        "type": "object",
+        "required": ["multifactor"],
+        "properties": {
+          "multifactor": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/IMethod"
+            }
+          }
+        }
+      },
+      "IMethod": {
+        "type": "object",
+        "required": ["type", "enabled"],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "extra": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthForgotInitRequest": {
+        "type": "object",
+        "required": ["email"],
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "AuthForgotInitResult": {
+        "type": "object",
+        "required": ["student_id", "methods"],
+        "properties": {
+          "student_id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "methods": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecoveryMethod"
+            }
+          }
+        }
+      },
+      "RecoveryMethod": {
+        "type": "object",
+        "required": ["type", "enabled"],
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/MFAType"
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "extra": {
+            "type": "string"
+          },
+          "reason": {
+            "$ref": "#/components/schemas/RecoveryUnavailableReason"
+          }
+        }
+      },
+      "RecoveryUnavailableReason": {
+        "type": "integer",
+        "enum": [0, 1, 2, 3, 4]
+      },
+      "AuthForgotChallengeRequest": {
+        "type": "object",
+        "required": ["type", "studentId"],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "studentId": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthForgotVerifyRequest": {
+        "type": "object",
+        "required": ["type", "studentId", "code"],
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "studentId": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthForgotVerifyResult": {
+        "type": "object",
+        "required": ["ok"],
+        "properties": {
+          "ok": {
+            "type": "boolean"
+          },
+          "reset_token": {
+            "type": "string"
+          }
+        }
+      },
+      "AuthSessionRequest": {
+        "type": "object",
+        "properties": {
+          "logout": {
+            "type": "boolean"
+          }
+        }
+      },
+      "AuthSessionResult": {
+        "type": "object",
+        "required": ["logged"],
+        "properties": {
+          "logged": {
+            "type": "boolean"
+          },
+          "name": {
+            "type": "string"
+          },
+          "student_id": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "responses": {
+      "BadRequest": {
+        "description": "请求参数不合法或业务前置校验失败",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "examples": {
+              "invalidParams": {
+                "summary": "invalidParams",
+                "value": {
+                  "code": "BAD_REQUEST",
+                  "message": "Invalid request body",
+                  "traceId": "trace-req-001"
+                }
+              },
+              "otpInvalid": {
+                "summary": "otpInvalid",
+                "value": {
+                  "code": "OTP_INVALID_OR_EXPIRED",
+                  "message": "OTP invalid or expired",
+                  "traceId": "trace-otp-001"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "未登录、会话失效或鉴权失败",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "examples": {
+              "unauthorized": {
+                "summary": "unauthorized",
+                "value": {
+                  "code": "UNAUTHORIZED",
+                  "message": "Unauthorized",
+                  "traceId": "trace-auth-001"
+                }
+              }
+            }
+          }
+        }
+      },
+      "TooManyRequests": {
+        "description": "请求频率超过限制，触发限流",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "examples": {
+              "rateLimited": {
+                "summary": "rateLimited",
+                "value": {
+                  "code": "RATE_LIMITED",
+                  "message": "Too many requests",
+                  "traceId": "trace-rate-001"
+                }
+              }
+            }
+          }
+        }
+      },
+      "ServerError": {
+        "description": "服务端内部异常",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "examples": {
+              "internalError": {
+                "summary": "internalError",
+                "value": {
+                  "code": "INTERNAL_ERROR",
+                  "message": "Internal server error",
+                  "traceId": "trace-srv-001"
+                }
+              }
+            }
+          }
+        }
+      },
+      "NotImplemented": {
+        "description": "接口已暴露但当前版本尚未实现",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {}
+            },
+            "examples": {
+              "notImplemented": {
+                "summary": "notImplemented",
+                "value": {
+                  "code": "INTERNAL_ERROR",
+                  "message": "Not implemented",
+                  "traceId": "trace-impl-001"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "cookieAuth": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "idp_session",
+        "description": "IDP 会话 Cookie（适用于浏览器场景）"
+      },
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Authorization: Bearer <token>"
+      }
+    }
+  },
+  "servers": [
+    {
+      "url": "http://127.0.0.1:4001/api/idp",
+      "description": "本地环境"
+    },
+    {
+      "url": "https://csisp-idp-server.onrender.com/api/idp",
+      "description": "生产环境"
+    }
+  ],
+  "security": []
+}

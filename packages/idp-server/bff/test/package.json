@@ -1,0 +1,14 @@
+{
+  "name": "@csisp-api/bff-idp-server-test",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@csisp-api/bff-idp-server": "workspace:^"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.9"
+  }
+}
