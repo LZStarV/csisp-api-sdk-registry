@@ -318,59 +318,6 @@
         "security": []
       }
     },
-    "/auth/rsatoken": {
-      "post": {
-        "summary": "Rsatoken",
-        "deprecated": false,
-        "description": "",
-        "operationId": "auth_rsatoken",
-        "tags": [
-          "auth"
-        ],
-        "parameters": [
-          {
-            "name": "x-trace-id",
-            "in": "header",
-            "description": "Optional client-provided trace id for end-to-end tracing",
-            "required": false,
-            "example": "",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RSATokenResult"
-                }
-              }
-            },
-            "headers": {}
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest",
-            "description": "请求参数不合法或业务前置校验失败"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized",
-            "description": "未登录、会话失效或鉴权失败"
-          },
-          "429": {
-            "$ref": "#/components/responses/TooManyRequests",
-            "description": "请求频率超过限制，触发限流"
-          },
-          "500": {
-            "$ref": "#/components/responses/ServerError",
-            "description": "服务端内部异常"
-          }
-        },
-        "security": []
-      }
-    },
     "/auth/register": {
       "post": {
         "summary": "Register",
@@ -839,69 +786,6 @@
             "bearerAuth": []
           }
         ]
-      }
-    },
-    "/auth/reset_password_request": {
-      "post": {
-        "summary": "ResetPasswordRequest",
-        "deprecated": false,
-        "description": "",
-        "operationId": "auth_resetPasswordRequest",
-        "tags": [
-          "auth"
-        ],
-        "parameters": [
-          {
-            "name": "x-trace-id",
-            "in": "header",
-            "description": "Optional client-provided trace id for end-to-end tracing",
-            "required": false,
-            "example": "",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ResetPasswordRequestParams"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/NextResult"
-                }
-              }
-            },
-            "headers": {}
-          },
-          "400": {
-            "$ref": "#/components/responses/BadRequest",
-            "description": "请求参数不合法或业务前置校验失败"
-          },
-          "401": {
-            "$ref": "#/components/responses/Unauthorized",
-            "description": "未登录、会话失效或鉴权失败"
-          },
-          "429": {
-            "$ref": "#/components/responses/TooManyRequests",
-            "description": "请求频率超过限制，触发限流"
-          },
-          "500": {
-            "$ref": "#/components/responses/ServerError",
-            "description": "服务端内部异常"
-          }
-        },
-        "security": []
       }
     },
     "/auth/reset_password": {
@@ -1470,28 +1354,6 @@
           }
         }
       },
-      "RSATokenResult": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "publicKey"
-        ],
-        "properties": {
-          "publicKey": {
-            "type": "string"
-          },
-          "token": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ]
-          }
-        }
-      },
       "RegisterDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1759,18 +1621,6 @@
           3
         ]
       },
-      "ResetPasswordRequestParams": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "studentId"
-        ],
-        "properties": {
-          "studentId": {
-            "type": "string"
-          }
-        }
-      },
       "ResetPasswordDto": {
         "type": "object",
         "additionalProperties": false,
@@ -1994,59 +1844,6 @@
             "type": "string"
           }
         }
-      },
-      "Error": {
-        "type": "object",
-        "required": [
-          "code",
-          "message"
-        ],
-        "properties": {
-          "code": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/CommonErrorCode"
-              },
-              {
-                "$ref": "#/components/schemas/AuthErrorCode"
-              }
-            ]
-          },
-          "message": {
-            "type": "string"
-          },
-          "details": {},
-          "traceId": {
-            "type": [
-              "string",
-              "null"
-            ]
-          }
-        }
-      },
-      "CommonErrorCode": {
-        "type": "string",
-        "enum": [
-          "BAD_REQUEST",
-          "UNAUTHORIZED",
-          "FORBIDDEN",
-          "NOT_FOUND",
-          "RATE_LIMITED",
-          "INTERNAL_ERROR",
-          "AUTH_STEP_UP_REQUIRED",
-          "OTP_INVALID_OR_EXPIRED"
-        ]
-      },
-      "AuthErrorCode": {
-        "type": "string",
-        "enum": [
-          "AUTH_STEP_UP_REQUIRED",
-          "OTP_INVALID_OR_EXPIRED",
-          "EXCHANGE_CODE_INVALID",
-          "EXCHANGE_CODE_CONSUMED",
-          "UNAUTHORIZED",
-          "RATE_LIMITED"
-        ]
       }
     },
     "responses": {
@@ -2055,7 +1852,8 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "type": "object",
+              "properties": {}
             },
             "examples": {
               "invalidParams": {
@@ -2083,7 +1881,8 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "type": "object",
+              "properties": {}
             },
             "examples": {
               "unauthorized": {
@@ -2103,7 +1902,8 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "type": "object",
+              "properties": {}
             },
             "examples": {
               "rateLimited": {
@@ -2123,7 +1923,8 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "type": "object",
+              "properties": {}
             },
             "examples": {
               "internalError": {
@@ -2143,7 +1944,8 @@
         "content": {
           "application/json": {
             "schema": {
-              "$ref": "#/components/schemas/Error"
+              "type": "object",
+              "properties": {}
             },
             "examples": {
               "notImplemented": {
