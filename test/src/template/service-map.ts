@@ -25,5 +25,17 @@ export type ServiceProfile<TClients> = {
   runtimeExpectations: RuntimeExpectations;
   contractCases: ContractCase[];
   contractFixturesDir: string;
-  createRuntimeHarnessConfig: () => RuntimeHarnessConfig<TClients>;
+  createRuntimeHarnessConfig: (options?: {
+    basePath?: string;
+    timeout?: number;
+    enableLogging?: boolean;
+  }) => RuntimeHarnessConfig<TClients>;
+  testConfig?: {
+    defaultTimeout?: number;
+    performanceThresholds?: {
+      healthStatus?: number;
+      oidcClients?: number;
+      authLogin?: number;
+    };
+  };
 };

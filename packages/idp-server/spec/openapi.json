@@ -26,9 +26,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "health_status",
-        "tags": [
-          "health"
-        ],
+        "tags": ["health"],
         "parameters": [],
         "responses": {
           "200": {
@@ -37,10 +35,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "ok",
-                    "ts"
-                  ],
+                  "required": ["ok", "ts"],
                   "properties": {
                     "ok": {
                       "type": "boolean"
@@ -80,9 +75,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "health_upstash",
-        "tags": [
-          "health"
-        ],
+        "tags": ["health"],
         "parameters": [],
         "responses": {
           "200": {
@@ -91,24 +84,16 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "required": [
-                    "ok"
-                  ],
+                  "required": ["ok"],
                   "properties": {
                     "ok": {
                       "type": "boolean"
                     },
                     "region": {
-                      "type": [
-                        "string",
-                        "null"
-                      ]
+                      "type": ["string", "null"]
                     },
                     "count": {
-                      "type": [
-                        "integer",
-                        "null"
-                      ]
+                      "type": ["integer", "null"]
                     }
                   }
                 }
@@ -142,9 +127,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "oidc_clients",
-        "tags": [
-          "oidc"
-        ],
+        "tags": ["oidc"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -198,9 +181,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "oidc_getAuthorizationRequest",
-        "tags": [
-          "oidc"
-        ],
+        "tags": ["oidc"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -261,9 +242,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_login",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -324,9 +303,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_register",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -387,9 +364,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_verifySignupOtp",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -450,9 +425,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_resendSignupOtp",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -520,9 +493,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_sendOtp",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -580,9 +551,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_verifyOtp",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -650,9 +619,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_createExchangeCode",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -720,9 +687,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_multifactor",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -794,9 +759,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_resetPassword",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -857,9 +820,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_enter",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -920,9 +881,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_mfaMethods",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -980,9 +939,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_forgotInit",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -1043,9 +1000,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_forgotChallenge",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -1106,9 +1061,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_forgotVerify",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -1169,9 +1122,7 @@
         "deprecated": false,
         "description": "",
         "operationId": "auth_session",
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "parameters": [
           {
             "name": "x-trace-id",
@@ -1261,11 +1212,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "openid",
-                "profile",
-                "email"
-              ]
+              "enum": ["openid", "profile", "email"]
             }
           }
         }
@@ -1273,9 +1220,7 @@
       "GetAuthorizationRequestParams": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "ticket"
-        ],
+        "required": ["ticket"],
         "properties": {
           "ticket": {
             "type": "string"
@@ -1285,13 +1230,7 @@
       "AuthorizationRequestInfo": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "client_id",
-          "client_name",
-          "scope",
-          "redirect_uri",
-          "state"
-        ],
+        "required": ["client_id", "client_name", "scope", "redirect_uri", "state"],
         "properties": {
           "client_id": {
             "type": "string"
@@ -1303,11 +1242,7 @@
             "type": "array",
             "items": {
               "type": "string",
-              "enum": [
-                "openid",
-                "profile",
-                "email"
-              ]
+              "enum": ["openid", "profile", "email"]
             }
           },
           "redirect_uri": {
@@ -1321,10 +1256,7 @@
       "LoginInternalDto": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "email",
-          "password"
-        ],
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string",
@@ -1342,26 +1274,18 @@
       "LoginResult": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "stepUp"
-        ],
+        "required": ["stepUp"],
         "properties": {
           "stepUp": {
             "type": "string",
-            "enum": [
-              "PENDING_PASSWORD"
-            ]
+            "enum": ["PENDING_PASSWORD"]
           }
         }
       },
       "RegisterDto": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "email",
-          "password",
-          "student_id"
-        ],
+        "required": ["email", "password", "student_id"],
         "properties": {
           "email": {
             "type": "string",
@@ -1379,18 +1303,12 @@
             "pattern": "^\\\\d{10,12}$"
           },
           "display_name": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "minLength": 1,
             "maxLength": 128
           },
           "redirect_uri": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "minLength": 1,
             "maxLength": 512
           }
@@ -1399,32 +1317,22 @@
       "RegisterResult": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "ok",
-          "next"
-        ],
+        "required": ["ok", "next"],
         "properties": {
           "ok": {
             "type": "boolean",
-            "enum": [
-              true
-            ]
+            "enum": [true]
           },
           "next": {
             "type": "string",
-            "enum": [
-              "verify_email"
-            ]
+            "enum": ["verify_email"]
           }
         }
       },
       "VerifySignupOtpDto": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "email",
-          "token"
-        ],
+        "required": ["email", "token"],
         "properties": {
           "email": {
             "type": "string",
@@ -1441,24 +1349,18 @@
       "VerifiedResult": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "verified"
-        ],
+        "required": ["verified"],
         "properties": {
           "verified": {
             "type": "boolean",
-            "enum": [
-              true
-            ]
+            "enum": [true]
           }
         }
       },
       "ResendSignupOtpDto": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "email"
-        ],
+        "required": ["email"],
         "properties": {
           "email": {
             "type": "string",
@@ -1471,24 +1373,18 @@
       "OkResult": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "ok"
-        ],
+        "required": ["ok"],
         "properties": {
           "ok": {
             "type": "boolean",
-            "enum": [
-              true
-            ]
+            "enum": [true]
           }
         }
       },
       "VerifyOtpDto": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "token"
-        ],
+        "required": ["token"],
         "properties": {
           "token": {
             "type": "string",
@@ -1500,10 +1396,7 @@
       "CreateExchangeCodeDto": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "app_id",
-          "redirect_uri"
-        ],
+        "required": ["app_id", "redirect_uri"],
         "properties": {
           "app_id": {
             "type": "string",
@@ -1516,10 +1409,7 @@
             "maxLength": 1024
           },
           "state": {
-            "type": [
-              "string",
-              "null"
-            ],
+            "type": ["string", "null"],
             "minLength": 1,
             "maxLength": 256
           }
@@ -1528,10 +1418,7 @@
       "CreateExchangeCodeResult": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "code",
-          "redirect_uri"
-        ],
+        "required": ["code", "redirect_uri"],
         "properties": {
           "code": {
             "type": "string"
@@ -1540,19 +1427,13 @@
             "type": "string"
           },
           "state": {
-            "type": [
-              "string",
-              "null"
-            ]
+            "type": ["string", "null"]
           }
         }
       },
       "AuthMultifactorRequest": {
         "type": "object",
-        "required": [
-          "type",
-          "codeOrAssertion"
-        ],
+        "required": ["type", "codeOrAssertion"],
         "properties": {
           "type": {
             "$ref": "#/components/schemas/MFAType"
@@ -1564,18 +1445,11 @@
       },
       "MFAType": {
         "type": "integer",
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
+        "enum": [0, 1, 2, 3]
       },
       "NextResult": {
         "type": "object",
-        "required": [
-          "nextSteps"
-        ],
+        "required": ["nextSteps"],
         "properties": {
           "nextSteps": {
             "type": "array",
@@ -1588,10 +1462,7 @@
           },
           "sms": {
             "type": "object",
-            "required": [
-              "code",
-              "success"
-            ],
+            "required": ["code", "success"],
             "properties": {
               "code": {
                 "type": "string"
@@ -1614,21 +1485,12 @@
       },
       "AuthNextStep": {
         "type": "integer",
-        "enum": [
-          0,
-          1,
-          2,
-          3
-        ]
+        "enum": [0, 1, 2, 3]
       },
       "ResetPasswordDto": {
         "type": "object",
         "additionalProperties": false,
-        "required": [
-          "studentId",
-          "newPassword",
-          "resetToken"
-        ],
+        "required": ["studentId", "newPassword", "resetToken"],
         "properties": {
           "studentId": {
             "type": "string",
@@ -1652,12 +1514,7 @@
       },
       "ResetReason": {
         "type": "string",
-        "enum": [
-          "WeakPassword",
-          "Compromised",
-          "UserRequest",
-          "Other"
-        ]
+        "enum": ["WeakPassword", "Compromised", "UserRequest", "Other"]
       },
       "AuthEnterRequest": {
         "type": "object",
@@ -1678,9 +1535,7 @@
       },
       "AuthMfaMethodsResult": {
         "type": "object",
-        "required": [
-          "multifactor"
-        ],
+        "required": ["multifactor"],
         "properties": {
           "multifactor": {
             "type": "array",
@@ -1692,10 +1547,7 @@
       },
       "IMethod": {
         "type": "object",
-        "required": [
-          "type",
-          "enabled"
-        ],
+        "required": ["type", "enabled"],
         "properties": {
           "type": {
             "$ref": "#/components/schemas/MFAType"
@@ -1710,9 +1562,7 @@
       },
       "AuthForgotInitRequest": {
         "type": "object",
-        "required": [
-          "email"
-        ],
+        "required": ["email"],
         "properties": {
           "email": {
             "type": "string",
@@ -1722,10 +1572,7 @@
       },
       "AuthForgotInitResult": {
         "type": "object",
-        "required": [
-          "student_id",
-          "methods"
-        ],
+        "required": ["student_id", "methods"],
         "properties": {
           "student_id": {
             "type": "string"
@@ -1743,10 +1590,7 @@
       },
       "RecoveryMethod": {
         "type": "object",
-        "required": [
-          "type",
-          "enabled"
-        ],
+        "required": ["type", "enabled"],
         "properties": {
           "type": {
             "$ref": "#/components/schemas/MFAType"
@@ -1764,20 +1608,11 @@
       },
       "RecoveryUnavailableReason": {
         "type": "integer",
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4
-        ]
+        "enum": [0, 1, 2, 3, 4]
       },
       "AuthForgotChallengeRequest": {
         "type": "object",
-        "required": [
-          "type",
-          "studentId"
-        ],
+        "required": ["type", "studentId"],
         "properties": {
           "type": {
             "type": "string"
@@ -1789,11 +1624,7 @@
       },
       "AuthForgotVerifyRequest": {
         "type": "object",
-        "required": [
-          "type",
-          "studentId",
-          "code"
-        ],
+        "required": ["type", "studentId", "code"],
         "properties": {
           "type": {
             "type": "string"
@@ -1808,9 +1639,7 @@
       },
       "AuthForgotVerifyResult": {
         "type": "object",
-        "required": [
-          "ok"
-        ],
+        "required": ["ok"],
         "properties": {
           "ok": {
             "type": "boolean"
@@ -1830,9 +1659,7 @@
       },
       "AuthSessionResult": {
         "type": "object",
-        "required": [
-          "logged"
-        ],
+        "required": ["logged"],
         "properties": {
           "logged": {
             "type": "boolean"

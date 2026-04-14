@@ -12,7 +12,11 @@
     "test:idp": "pnpm --filter @csisp-api/test-template run test",
     "test:idp:contracts": "pnpm --filter @csisp-api/test-template run test:contracts",
     "test:idp:runtime": "pnpm --filter @csisp-api/test-template run test:runtime",
-    "test:idp:verify": "pnpm --filter @csisp-api/idp-server-project run verify"
+    "test:idp:verify": "pnpm --filter @csisp-api/idp-server-project run verify",
+    "test:bff": "pnpm --filter @csisp-api/bff-idp-server-test run test",
+    "test:server": "pnpm --filter @csisp-api/idp-server-test run test",
+    "test:spec": "pnpm --filter @csisp-api/idp-server-spec-test run test",
+    "test:all": "pnpm test:idp && pnpm test:bff && pnpm test:server && pnpm test:spec"
   },
   "devDependencies": {
     "@changesets/cli": "^2.27.8",

@@ -21,21 +21,21 @@ csisp-api-sdk-registry/
 
 ## 常见任务定位
 
-| 任务 | 位置 | 说明 |
-| --- | --- | --- |
-| OpenAPI 导出 | `packages/idp-server/spec` | `dev:export` 会先导出，再注入 `servers` |
-| SDK 生成 | `packages/idp-server/server/scripts/codegen.ts` | 使用 `@openapitools/openapi-generator-cli` |
-| 发布流程 | `.github/workflows/publish.yml` | CI 中会处理 `bff` 与 `server` 包 |
-| SDK 入口 | `packages/idp-server/server/src/index.ts` | 对外导出 SDK |
-| 配置与密钥 | `.infisical`（运行时注入） | 通过 Infisical CLI 注入环境变量 |
+| 任务         | 位置                                            | 说明                                       |
+| ------------ | ----------------------------------------------- | ------------------------------------------ |
+| OpenAPI 导出 | `packages/idp-server/spec`                      | `dev:export` 会先导出，再注入 `servers`    |
+| SDK 生成     | `packages/idp-server/server/scripts/codegen.ts` | 使用 `@openapitools/openapi-generator-cli` |
+| 发布流程     | `.github/workflows/publish.yml`                 | CI 中会处理 `bff` 与 `server` 包           |
+| SDK 入口     | `packages/idp-server/server/src/index.ts`       | 对外导出 SDK                               |
+| 配置与密钥   | `.infisical`（运行时注入）                      | 通过 Infisical CLI 注入环境变量            |
 
 ## 代码索引
 
-| 符号 | 类型 | 文件 | 作用 |
-| --- | --- | --- | --- |
-| `generateSdk` | function | `packages/idp-server/server/scripts/codegen.ts` | 从 OpenAPI 生成 SDK |
-| `publishPackage` | function | `packages/idp-server/server/scripts/publish.ts` | 发布 npm 包 |
-| `AppConfig` | interface | `packages/idp-server/server/src/config.ts` | 应用配置定义 |
+| 符号             | 类型      | 文件                                            | 作用                |
+| ---------------- | --------- | ----------------------------------------------- | ------------------- |
+| `generateSdk`    | function  | `packages/idp-server/server/scripts/codegen.ts` | 从 OpenAPI 生成 SDK |
+| `publishPackage` | function  | `packages/idp-server/server/scripts/publish.ts` | 发布 npm 包         |
+| `AppConfig`      | interface | `packages/idp-server/server/src/config.ts`      | 应用配置定义        |
 
 ## 开发约定
 

@@ -2,3 +2,4 @@ packages:
   - test
   - packages/*
   - packages/*/*
+  - packages/*/*/test

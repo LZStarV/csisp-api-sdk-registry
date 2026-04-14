@@ -16,7 +16,7 @@ const api = new AuthApi(
 );
 
 // 例如登录
-api.authLogin({ loginInternalDto: { email: 'a@b.com', password: 'xxx' } }).then(res => {
+api.authLogin({ loginInternalDto: { email: 'a@b.com', password: 'xxx' } }).then((res) => {
   console.log(res);
 });
 ```

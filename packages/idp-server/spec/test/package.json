@@ -1,0 +1,11 @@
+{
+  "name": "@csisp-api/idp-server-spec-test",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^2.1.9"
+  }
+}

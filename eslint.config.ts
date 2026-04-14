@@ -3,7 +3,8 @@ import prettierPlugin from 'eslint-plugin-prettier';
 import globals from 'globals';
 import ts from 'typescript-eslint';
 
-export default [
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const config: any[] = [
   {
     ignores: [
       '**/node_modules/**',
@@ -33,6 +34,8 @@ export default [
       'apps/*/*/build/**',
       'packages/*/dist/**',
       'packages/*/build/**',
+      'packages/idp-server/bff/generated/**',
+      'packages/idp-server/server/generated/**',
       'docs/.vitepress/cache/**',
       'docs/.vitepress/dist/**',
       'docs/index.md',
@@ -75,7 +78,14 @@ export default [
       'import/order': [
         'warn',
         {
-          groups: ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          groups: [
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
+          ],
           'newlines-between': 'always',
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
@@ -93,3 +103,5 @@ export default [
     },
   },
 ];
+
+export default config;

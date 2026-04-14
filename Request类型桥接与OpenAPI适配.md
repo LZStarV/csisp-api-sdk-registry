@@ -51,10 +51,7 @@ export class AuthController {
   }
 
   @Post('login')
-  async authLogin(
-    @Body() loginInternalDto: LoginInternalDto,
-    @Req() request: ExpressRequest
-  ) {
+  async authLogin(@Body() loginInternalDto: LoginInternalDto, @Req() request: ExpressRequest) {
     return this.authApi.authLogin(
       { loginInternalDto, xTraceId: this.getTraceId(request) },
       this.toContractRequest(request) // 桥接转换

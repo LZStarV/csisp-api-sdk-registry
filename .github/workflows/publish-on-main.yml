@@ -34,15 +34,24 @@ jobs:
       - name: Install deps
         run: pnpm install
 
-      - name: Publish with Changesets
-        uses: changesets/action@v1
-        with:
-          publish: |
-            bash -lc "pnpm --filter @csisp-api/idp-server-spec exec tsx scripts/apifox-export.ts && pnpm --filter @csisp-api/bff-idp-server run codegen && pnpm --filter @csisp-api/bff-idp-server run build && pnpm --filter @csisp-api/idp-server run codegen && pnpm --filter @csisp-api/idp-server run build && pnpm -r publish --access public"
+      - name: Build and Test
+        run: |
+          pnpm --filter @csisp-api/idp-server-spec exec tsx scripts/apifox-export.ts
+          pnpm --filter @csisp-api/bff-idp-server run codegen
+          pnpm --filter @csisp-api/bff-idp-server run build
+          pnpm --filter @csisp-api/idp-server run codegen
+          pnpm --filter @csisp-api/idp-server run build
+          pnpm test:all
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           PROJECT_ID: ${{ secrets.PROJECT_ID }}
           APIFOX_ACCESS_TOKEN: ${{ secrets.APIFOX_ACCESS_TOKEN }}
           IDP_SERVER_MODULE_ID: ${{ secrets.IDP_SERVER_MODULE_ID }}
 
+      - name: Publish with Changesets
+        uses: changesets/action@v1
+        with:
+          publish: |
+            pnpm -r publish --access public
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

@@ -69,6 +69,11 @@ jobs:
           pnpm --filter @csisp-api/idp-server run codegen
           pnpm --filter @csisp-api/idp-server run build
 
+      - name: Test (idp-server)
+        if: ${{ inputs.service == 'idp-server' }}
+        run: |
+          pnpm test:all
+
       - name: Create release branch
         id: mkbranch
         run: |
@@ -116,5 +121,4 @@ jobs:
             - preid: ${{ inputs.preid }}
           branch: ${{ env.BRANCH }}
           base: main
-          commit-message: "chore(release): add changeset for @csisp-api/idp-server"
-
+          commit-message: 'chore(release): add changeset for @csisp-api/idp-server'
