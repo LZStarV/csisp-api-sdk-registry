@@ -1844,6 +1844,68 @@
             "type": "string"
           }
         }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "code",
+          "message"
+        ],
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/ErrorCode"
+          },
+          "message": {
+            "type": "string"
+          },
+          "details": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {}
+          },
+          "traceId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        }
+      },
+      "ErrorCode": {
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/CommonErrorCode"
+          },
+          {
+            "$ref": "#/components/schemas/AuthErrorCode"
+          }
+        ]
+      },
+      "CommonErrorCode": {
+        "type": "string",
+        "enum": [
+          "BAD_REQUEST",
+          "UNAUTHORIZED",
+          "FORBIDDEN",
+          "NOT_FOUND",
+          "RATE_LIMITED",
+          "INTERNAL_ERROR",
+          "AUTH_STEP_UP_REQUIRED",
+          "OTP_INVALID_OR_EXPIRED"
+        ]
+      },
+      "AuthErrorCode": {
+        "type": "string",
+        "enum": [
+          "AUTH_STEP_UP_REQUIRED",
+          "OTP_INVALID_OR_EXPIRED",
+          "EXCHANGE_CODE_INVALID",
+          "EXCHANGE_CODE_CONSUMED",
+          "UNAUTHORIZED",
+          "RATE_LIMITED"
+        ]
       }
     },
     "responses": {
@@ -1852,8 +1914,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/components/schemas/Error"
             },
             "examples": {
               "invalidParams": {
@@ -1881,8 +1942,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/components/schemas/Error"
             },
             "examples": {
               "unauthorized": {
@@ -1902,8 +1962,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/components/schemas/Error"
             },
             "examples": {
               "rateLimited": {
@@ -1923,8 +1982,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/components/schemas/Error"
             },
             "examples": {
               "internalError": {
@@ -1944,8 +2002,7 @@
         "content": {
           "application/json": {
             "schema": {
-              "type": "object",
-              "properties": {}
+              "$ref": "#/components/schemas/Error"
             },
             "examples": {
               "notImplemented": {
