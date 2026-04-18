@@ -30,7 +30,7 @@ const main = () => {
     ...protoPaths,
     `--ts_proto_out=${config.output.server}`,
     ...protoFiles,
-    '--ts_proto_opt=outputServices=none,snakeToCamel=true',
+    '--ts_proto_opt=outputServices=grpc-js,nestJs=true,snakeToCamel=true',
   ];
   const serverResult = spawnSync(serverGenCmd[0], serverGenCmd.slice(1), {
     stdio: 'inherit',
