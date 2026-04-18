@@ -20,8 +20,7 @@
 ```typescript
 import { ClientGrpc, ClientsModule, Transport } from '@nestjs/microservices';
 import { Module } from '@nestjs/common';
-import { DemoClient, INTEGRATED_SERVER_PACKAGE_NAME } from '@csisp-api/bff-integrated-server';
-import { join } from 'path';
+import { INTEGRATED_SERVER_PACKAGE_NAME } from '@csisp-api/bff-integrated-server';
 
 @Module({
   imports: [
@@ -31,8 +30,11 @@ import { join } from 'path';
         transport: Transport.GRPC,
         options: {
           package: INTEGRATED_SERVER_PACKAGE_NAME,
-          protoPath: join(__dirname, 'proto/demo.proto'), // 在实际部署中替换为真实路径
-          url: 'localhost:50051',
+          url: '127.0.0.1:50051',
+          packageDefinition: {
+            // 把静态生成的服务定义 注册到 gRPC 服务器
+            'integrated.server.demo': DemoService,
+          },
         },
       },
     ]),

@@ -28,10 +28,11 @@ async function bootstrap() {
     {
       transport: Transport.GRPC,
       options: {
+        package: INTEGRATED_SERVER_PACKAGE_NAME,
         url: '0.0.0.0:50051',
-        onLoadPackageDefinition: (pkg, server) => {
+        packageDefinition: {
           // 把静态生成的服务定义 注册到 gRPC 服务器
-          pkg['integrated.server'] = { Demo: DemoService };
+          'integrated.server.demo': DemoService,
         },
       },
     },
