@@ -3,7 +3,18 @@
 - 目标：从 Apifox 拉取 CSISP 项目的 OpenAPI 文档，生成可发布的 TypeScript SDK，供主项目直接消费。
 - 方式：使用 Infisical 注入敏感环境变量，调用导出脚本写入 openapi.json，随后用 OpenAPI Generator 产出代码并通过 TypeScript 构建。
 
+## 支持的协议
+
+本项目支持两种协议生成 SDK：
+
+| 协议 | 项目 | 说明 |
+|------|------|------|
+| HTTP | idp-server | 基于 OpenAPI 规范生成 |
+| gRPC | integrated-server | 基于 Protocol Buffers 生成 |
+
 ## 工作流总览
+
+### HTTP (idp-server)
 
 1. 从 Apifox 导出 OpenAPI
    - 命令：在 idp-server 包内执行 dev:export
@@ -16,6 +27,19 @@
    - 使用 tsc 从 generated 编译到 dist，并输出类型声明
 4. 发布
    - 将包发布到私有 npm 仓库。
+
+### gRPC (integrated-server)
+
+1. 编写 proto 文件
+   - 位置：`packages/integrated-server/spec/proto/*.proto`
+2. 生成 TypeScript 代码
+   - 命令：在 integrated-server 包内执行 generate
+   - 使用 ts-proto 生成 server 和 bff 两份代码
+3. 构建发布物
+   - 命令：在 integrated-server 包内执行 build
+   - 同时构建 server 和 bff 两个子包
+4. 发布
+   - 分别发布 server 和 bff 包到私有 npm 仓库。
 
 ### 本地构建与生成
 - **注意**：执行 `codegen` 指令需要本地已安装 **Java** 环境。

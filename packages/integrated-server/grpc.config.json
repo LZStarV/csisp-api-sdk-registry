@@ -1,0 +1,19 @@
+{
+  "protoRoot": "./spec/proto",
+  "protoFiles": [
+    "*.proto"
+  ],
+  "output": {
+    "server": "./server/generated",
+    "bff": "./bff/generated"
+  },
+  "tsProtoOptions": {
+    "outputEncodeMethods": "none",
+    "outputJsonMethods": "none",
+    "useExactTypes": false,
+    "snakeToCamel": true,
+    "addGrpcMetadata": true,
+    "nestJs": true,
+    "esModuleInterop": true
+  }
+}

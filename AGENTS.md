@@ -5,18 +5,27 @@
 CSISP API SDK Registry 是一个 Monorepo，用于从 OpenAPI 规范生成 TypeScript SDK，并发布为私有 npm 包。
 核心技术栈：Node.js 20+、pnpm、TypeScript、OpenAPI Generator（依赖 Java）。
 
+支持两种协议生成 SDK：
+- HTTP：idp-server 项目
+- gRPC：integrated-server 项目
+
 ## 目录结构
 
 ```text
 csisp-api-sdk-registry/
 ├─ packages/
-│  └─ idp-server/            # 主业务目录
-│     ├─ bff/                # BFF 层
-│     ├─ server/             # SDK 生成与 API 服务核心
-│     ├─ spec/               # OpenAPI 导出与预处理脚本
-│     └─ test/               # 统一测试包（Vitest）
+│  ├─ idp-server/            # HTTP 接口 SDK
+│  │  ├─ bff/               # BFF 层 SDK
+│  │  ├─ server/            # 服务端 SDK
+│  │  ├─ spec/              # OpenAPI 导出与预处理脚本
+│  │  └─ test/              # 统一测试包（Vitest）
+│  └─ integrated-server/     # gRPC 接口 SDK
+│     ├─ bff/               # BFF 层 SDK
+│     ├─ server/            # 服务端 SDK
+│     ├─ spec/proto/        # Proto 文件定义
+│     └─ scripts/           # 代码生成脚本
 ├─ .github/workflows/        # CI/CD 流水线
-└─ test/                     # 仓库级集成测试（若存在）
+└─ test/                    # 仓库级集成测试
 ```
 
 ## 常见任务定位
@@ -24,7 +33,9 @@ csisp-api-sdk-registry/
 | 任务 | 位置 | 说明 |
 | --- | --- | --- |
 | OpenAPI 导出 | `packages/idp-server/spec` | `dev:export` 会先导出，再注入 `servers` |
-| SDK 生成 | `packages/idp-server/server/scripts/codegen.ts` | 使用 `@openapitools/openapi-generator-cli` |
+| SDK 生成 (HTTP) | `packages/idp-server/server/scripts/codegen.ts` | 使用 `@openapitools/openapi-generator-cli` |
+| Proto 验证 | `packages/integrated-server/scripts/validate-proto.ts` | 验证 proto 文件语法 |
+| SDK 生成 (gRPC) | `packages/integrated-server/scripts/generate-grpc.ts` | 使用 ts-proto 生成 TypeScript |
 | 发布流程 | `.github/workflows/publish.yml` | CI 中会处理 `bff` 与 `server` 包 |
 | SDK 入口 | `packages/idp-server/server/src/index.ts` | 对外导出 SDK |
 | 配置与密钥 | `.infisical`（运行时注入） | 通过 Infisical CLI 注入环境变量 |
@@ -78,6 +89,8 @@ npm publish
 
 ## 常用命令
 
+### idp-server (HTTP)
+
 ```bash
 # 1) 导出 OpenAPI（含 servers 注入）
 pnpm --filter @csisp-api/idp-server run dev:export
@@ -94,9 +107,27 @@ pnpm test:idp
 pnpm --filter @csisp-api/idp-server publish
 ```
 
+### integrated-server (gRPC)
+
+```bash
+# 1) 验证 proto 文件
+pnpm --filter @csisp-api/integrated-server run validate:proto
+
+# 2) 生成 TypeScript 代码（server + bff）
+pnpm --filter @csisp-api/integrated-server run generate
+
+# 3) 构建发布物
+pnpm --filter @csisp-api/integrated-server run build
+
+# 4) 分别发布 server 和 bff 包
+cd packages/integrated-server/server && npm publish
+cd packages/integrated-server/bff && npm publish
+```
+
 ## 注意事项
 
-- 使用 OpenAPI Generator 前需安装 Java 17+。
+- 使用 OpenAPI Generator 前需安装 **Java 17+**。
+- 使用 gRPC 代码生成前需安装 **protoc** 编译器。
 - 严禁将 `generated/`、`dist/` 等生成文件提交到仓库。
 - 发布动作必须在测试通过后执行。
 
