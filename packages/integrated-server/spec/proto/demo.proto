@@ -4,7 +4,7 @@ syntax = "proto3";
 package integrated.server;
 
 // 演示服务
-service DemoService {
+service Demo {
   // 获取演示信息
   rpc GetDemoInfo (GetDemoInfoRequest) returns (GetDemoInfoResponse);
 }
