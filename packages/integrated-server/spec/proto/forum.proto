@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package integrated.forum;
+
+option go_package = "./integrated/forum";
+
+import "google/protobuf/timestamp.proto";
+
+// 帖子消息定义
+message Post {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+  string author_id = 4;
+  string author_name = 5;
+  string post_type = 6;
+  google.protobuf.Timestamp created_at = 7;
+  google.protobuf.Timestamp updated_at = 8;
+}
+
+// 回复消息定义
+message Reply {
+  string id = 1;
+  string post_id = 2;
+  string content = 3;
+  string author_id = 4;
+  string author_name = 5;
+  google.protobuf.Timestamp created_at = 6;
+}
+
+// 创建帖子请求
+message CreatePostRequest {
+  string title = 1;
+  string content = 2;
+  string author_id = 3;
+  string author_name = 4;
+  string post_type = 5;
+}
+
+// 创建帖子响应
+message CreatePostResponse {
+  Post post = 1;
+  int32 code = 2;
+  string message = 3;
+}
+
+// 获取帖子广场请求
+message GetPostFeedRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+// 获取帖子广场响应
+message GetPostFeedResponse {
+  repeated Post posts = 1;
+  int64 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+  int32 code = 5;
+  string message = 6;
+}
+
+// 获取帖子详情请求
+message GetPostDetailRequest {
+  string post_id = 1;
+}
+
+// 获取帖子详情响应
+message GetPostDetailResponse {
+  Post post = 1;
+  repeated Reply replies = 2;
+  int32 code = 3;
+  string message = 4;
+}
+
+// 创建回复请求
+message CreateReplyRequest {
+  string post_id = 1;
+  string content = 2;
+  string author_id = 3;
+  string author_name = 4;
+}
+
+// 创建回复响应
+message CreateReplyResponse {
+  Reply reply = 1;
+  int32 code = 2;
+  string message = 3;
+}
+
+// Forum 服务定义
+service Forum {
+  rpc CreatePost(CreatePostRequest) returns (CreatePostResponse);
+  rpc GetPostFeed(GetPostFeedRequest) returns (GetPostFeedResponse);
+  rpc GetPostDetail(GetPostDetailRequest) returns (GetPostDetailResponse);
+  rpc CreateReply(CreateReplyRequest) returns (CreateReplyResponse);
+}

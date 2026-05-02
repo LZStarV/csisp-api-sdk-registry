@@ -56,17 +56,40 @@ const main = () => {
     process.exit(1);
   }
 
+  const fixDuplicateProtobufPackage = (
+    outputDir: string,
+    protoFiles: string[]
+  ) => {
+    protoFiles.forEach(protoFile => {
+      const fileName = path.basename(protoFile, '.proto');
+      const filePath = path.join(outputDir, `${fileName}.ts`);
+
+      if (fs.existsSync(filePath)) {
+        let content = fs.readFileSync(filePath, 'utf-8');
+        content = content.replace(
+          /export const protobufPackage = /g,
+          `export const ${fileName}ProtobufPackage = `
+        );
+        fs.writeFileSync(filePath, content);
+      }
+    });
+  };
+
   const generateIndexFile = (outputDir: string, protoFiles: string[]) => {
-    const exports = protoFiles
-      .map(protoFile => {
-        const fileName = path.basename(protoFile, '.proto');
-        return `export * from './${fileName}';`;
-      })
-      .join('\n');
+    const lines: string[] = [];
+
+    lines.push('// 类型和服务导出');
+    protoFiles.forEach(protoFile => {
+      const fileName = path.basename(protoFile, '.proto');
+      lines.push(`export * from './${fileName}';`);
+    });
 
     const indexPath = path.join(outputDir, 'index.ts');
-    fs.writeFileSync(indexPath, exports + '\n');
+    fs.writeFileSync(indexPath, lines.join('\n') + '\n');
   };
+
+  fixDuplicateProtobufPackage(config.output.server, protoFiles);
+  fixDuplicateProtobufPackage(config.output.bff, protoFiles);
 
   generateIndexFile(config.output.server, protoFiles);
   generateIndexFile(config.output.bff, protoFiles);

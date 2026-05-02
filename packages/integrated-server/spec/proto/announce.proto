@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package integrated.announce;
+
+option go_package = "./integrated/announce";
+
+import "google/protobuf/timestamp.proto";
+
+// 公告消息定义
+message Announcement {
+  string id = 1;
+  string title = 2;
+  string content = 3;
+  string author_id = 4;
+  string author_name = 5;
+  string post_type = 6;
+  bool is_published = 7;
+  google.protobuf.Timestamp created_at = 8;
+  google.protobuf.Timestamp updated_at = 9;
+}
+
+// 获取公告列表请求
+message GetAnnouncementListRequest {
+  int32 page = 1;
+  int32 page_size = 2;
+}
+
+// 获取公告列表响应
+message GetAnnouncementListResponse {
+  repeated Announcement announcements = 1;
+  int64 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+  int32 code = 5;
+  string message = 6;
+}
+
+// 创建公告请求
+message CreateAnnouncementRequest {
+  string title = 1;
+  string content = 2;
+  string author_id = 3;
+  string author_name = 4;
+  string post_type = 5;
+}
+
+// 创建公告响应
+message CreateAnnouncementResponse {
+  Announcement announcement = 1;
+  int32 code = 2;
+  string message = 3;
+}
+
+// Announce 服务定义
+service Announce {
+  rpc GetAnnouncementList(GetAnnouncementListRequest) returns (GetAnnouncementListResponse);
+  rpc CreateAnnouncement(CreateAnnouncementRequest) returns (CreateAnnouncementResponse);
+}
