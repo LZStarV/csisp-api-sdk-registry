@@ -1,6 +1,6 @@
 {
   "name": "@csisp-api/bff-idp-server",
-  "version": "0.2.5",
+  "version": "0.2.8",
   "type": "commonjs",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

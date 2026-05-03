@@ -1292,6 +1292,76 @@
           }
         ]
       }
+    },
+    "/auth/logout": {
+      "post": {
+        "summary": "Logout",
+        "deprecated": false,
+        "description": "登出当前用户，清除 IDP 会话",
+        "operationId": "auth_logout",
+        "tags": [
+          "auth"
+        ],
+        "parameters": [
+          {
+            "name": "x-trace-id",
+            "in": "header",
+            "description": "Optional client-provided trace id for end-to-end tracing",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LogoutRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogoutResult"
+                }
+              }
+            },
+            "headers": {}
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest",
+            "description": "请求参数不合法或业务前置校验失败"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized",
+            "description": "未登录、会话失效或鉴权失败"
+          },
+          "429": {
+            "$ref": "#/components/responses/TooManyRequests",
+            "description": "请求频率超过限制，触发限流"
+          },
+          "500": {
+            "$ref": "#/components/responses/ServerError",
+            "description": "服务端内部异常"
+          }
+        },
+        "security": [
+          {
+            "cookieAuth": []
+          },
+          {
+            "bearerAuth": []
+          }
+        ]
+      }
     }
   },
   "webhooks": {},
@@ -1382,15 +1452,12 @@
         "type": "object",
         "additionalProperties": false,
         "required": [
-          "email",
+          "student_id",
           "password"
         ],
         "properties": {
-          "email": {
-            "type": "string",
-            "format": "email",
-            "minLength": 5,
-            "maxLength": 256
+          "student_id": {
+            "$ref": "#/components/schemas/StudentId"
           },
           "password": {
             "type": "string",
@@ -1398,6 +1465,13 @@
             "maxLength": 512
           }
         }
+      },
+      "StudentId": {
+        "type": "string",
+        "pattern": "^\\d{10,14}$",
+        "minLength": 10,
+        "maxLength": 14,
+        "description": "学号（10-14 位数字）"
       },
       "LoginResult": {
         "type": "object",
@@ -1435,8 +1509,7 @@
             "maxLength": 512
           },
           "student_id": {
-            "type": "string",
-            "pattern": "^\\\\d{10,12}$"
+            "$ref": "#/components/schemas/StudentId"
           },
           "display_name": {
             "type": [
@@ -1902,6 +1975,39 @@
           },
           "student_id": {
             "type": "string"
+          }
+        }
+      },
+      "LogoutRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "post_logout_redirect_uri": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 1024,
+            "description": "登出后重定向地址（需在客户端白名单中）"
+          },
+          "state": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256,
+            "description": "传回给重定向地址的 state 参数"
+          }
+        }
+      },
+      "LogoutResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "logged"
+        ],
+        "properties": {
+          "logged": {
+            "type": "boolean",
+            "enum": [
+              false
+            ]
           }
         }
       },
